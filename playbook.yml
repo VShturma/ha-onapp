@@ -1,0 +1,7 @@
+---
+- hosts: cp
+  tasks:
+  - name: update OS
+    yum:
+      name: '*'
+      state: latest
