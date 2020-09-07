@@ -1,5 +1,6 @@
 ---
 - hosts: cp
+  remote_user: root
   tasks:
   - name: update OS
     yum:
