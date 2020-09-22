@@ -18,3 +18,12 @@
       state: latest
   - name: Install OnApp
     command: /onapp/onapp-cp-install/onapp-cp-install.sh --ha-install --percona-cluster -a --accept-eula
+  - name: increase the soft and hard limits for the opened files on all nodes
+    blockinfile:
+      path: /etc/security/limits.conf
+      insertbefore: '# End of file'
+      block: |
+        root soft nofile 2048
+        root hard nofile 4096
+        onapp soft nofile 2048
+        onapp hard nofile 4096
