@@ -2,10 +2,10 @@
 - hosts: all
   remote_user: root
   tasks:
-  - name: update OS
-    yum:
-      name: '*'
-      state: latest
+#  - name: update OS
+#    yum:
+#      name: '*'
+#      state: latest
   - name: Install OnApp repo
     command: rpm -Uvh http://rpm.repo.onapp.com/repo/onapp-repo-6.0.noarch.rpm
     register: command_result
@@ -24,7 +24,7 @@
   - name: Insert all CPs in hosts file
     lineinfile:
       path: /etc/hosts
-      line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ inventory_hostname }}\t{{ inventory_hostname_short }}"
+      line: "{{ ansible_default_ipv4.address }}\t{{ inventory_hostname }}\t{{ inventory_hostname_short }}"
   - name: increase the soft and hard limits for the opened files on all nodes
     blockinfile:
       path: /etc/security/limits.conf
