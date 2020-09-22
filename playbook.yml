@@ -1,5 +1,5 @@
 ---
-- hosts: cp
+- hosts: all
   remote_user: root
   tasks:
   - name: update OS
@@ -18,6 +18,13 @@
       state: latest
   - name: Install OnApp
     command: /onapp/onapp-cp-install/onapp-cp-install.sh --ha-install --percona-cluster -a --accept-eula
+  - name: Set hostname
+    hostname:
+      name: "{{ cp_hostname_long }}"
+  - name: Insert all CPs in hosts file
+    lineinfile:
+      path: /etc/hosts
+      line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ inventory_hostname }}\t{{ inventory_hostname_short }}"
   - name: increase the soft and hard limits for the opened files on all nodes
     blockinfile:
       path: /etc/security/limits.conf
