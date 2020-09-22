@@ -2,10 +2,10 @@
 - hosts: all
   remote_user: root
   tasks:
-#  - name: update OS
-#    yum:
-#      name: '*'
-#      state: latest
+  - name: update OS
+    yum:
+      name: '*'
+      state: latest
   - name: Install OnApp repo
     command: rpm -Uvh http://rpm.repo.onapp.com/repo/onapp-repo-6.0.noarch.rpm
     register: command_result
