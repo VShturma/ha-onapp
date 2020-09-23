@@ -49,19 +49,19 @@
   - name: Copy root SSH key to all nodes' root user
     authorized_key:
       user: root
-      key: "{{ lookup('file','buffer/root/{{ item }}'-id_rsa.pub)  }}"
+      key: "{{ lookup('file','buffer/root/{{ item }}-id_rsa.pub')  }}"
     when: "{{ item != ansible_hostname }}"
     with_items: "{{ groups['all'] }}"
   - name: Copy onapp SSH key to all nodes' root user
     authorized_key: 
       user: root
-      key: "{{ lookup('file','buffer/onapp/{{ item }}'-id_rsa.pub)  }}"
+      key: "{{ lookup('file','buffer/onapp/{{ item }}-id_rsa.pub')  }}"
     when: "{{ item != ansible_hostname }}"
     with_items: "{{ groups['all'] }}"
   - name: Copy onapp SSH key to all nodes' onapp user
     authorized_key:
       user: onapp
-      key: "{{ lookup('file','buffer/onapp/{{ item }}'-id_rsa.pub)  }}"
+      key: "{{ lookup('file','buffer/onapp/{{ item }}-id_rsa.pub')  }}"
     when: "{{ item != ansible_hostname }}"
     with_items: "{{ groups['all'] }}"
   - name: increase the soft and hard limits for the opened files on all nodes
