@@ -49,8 +49,8 @@
   - name: Copy root SSH key to all nodes' root user
     authorized_key:
       user: root
-      key: "{{ lookup('file','buffer/root/{{  hostvars[item]['ansible_hostname'] }}-id_rsa.pub')  }}"
-    when: "{{ hostvars[item]['ansible_hostname']  != ansible_hostname }}"
+      key: "{{ lookup('file','buffer/root/{{  hostvars[item]["ansible_hostname"] }}-id_rsa.pub')  }}"
+    when: hostvars[item]['ansible_hostname']  != ansible_hostname
     with_items: "{{ groups['all'] }}"
   - name: Copy onapp SSH key to all nodes' root user
     authorized_key: 
