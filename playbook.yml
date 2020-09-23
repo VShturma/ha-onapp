@@ -26,7 +26,7 @@
   - name: Insert CP's loopback address into /etc/hosts
     lineinfile:
       path: /etc/hosts
-      line: "127.0.0.1\t{{ hostvars[item]['ansible_fqdn'] }}\t{{ hostvars[item]['ansible_hostname'] }}"
+      line: "127.0.0.1\t{{ ansible_fqdn }}\t{{ ansible_hostname }}"
   - name: Insert all CPs in hosts file
     lineinfile:
       path: /etc/hosts
