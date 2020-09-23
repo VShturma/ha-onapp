@@ -42,6 +42,7 @@
       dest: "buffer/root/{{ansible_hostname}}-id_rsa.pub"
       flat: yes
   - name: Fetch onapp SSH key from node to master
+    fetch:
       src: "/home/onapp/.ssh/id_rsa"
       dest: "buffer/onapp/{{ansible_hostname}}-id_rsa.pub"
       flat: yes
