@@ -26,7 +26,7 @@
   - name: Insert all CPs in hosts file
     lineinfile:
       path: /etc/hosts
-      line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ hostvars[item]['ansible_fqdn'] }}\t{{ hostvars[item]['ansibe_hostname'] }}"
+      line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ hostvars[item]['ansible_fqdn'] }}\t{{ hostvars[item]['ansible_hostname'] }}"
     with_items: "{{ groups['all']}}"
   - name: increase the soft and hard limits for the opened files on all nodes
     blockinfile:
