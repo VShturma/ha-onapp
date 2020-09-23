@@ -6,6 +6,7 @@
     yum:
       name: '*'
       state: latest
+    when: install == 1
   - name: Install OnApp repo
     command: rpm -Uvh http://rpm.repo.onapp.com/repo/onapp-repo-6.0.noarch.rpm
     register: command_result
@@ -18,13 +19,15 @@
       state: latest
   - name: Install OnApp
     command: /onapp/onapp-cp-install/onapp-cp-install.sh --ha-install --percona-cluster -a --accept-eula
+    when: install == 1
   - name: Set hostname
     hostname:
       name: "{{ cp_hostname_long }}"
   - name: Insert all CPs in hosts file
     lineinfile:
       path: /etc/hosts
-      line: "{{ ansible_default_ipv4.address }}\t{{ inventory_hostname }}\t{{ inventory_hostname_short }}"
+      line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ hostvars[item]['ansible_fqdn'] }}\t{{ hostvars[item]['ansibe_hostname'] }}"
+    with_items: "{{ groups['all']}}"
   - name: increase the soft and hard limits for the opened files on all nodes
     blockinfile:
       path: /etc/security/limits.conf
