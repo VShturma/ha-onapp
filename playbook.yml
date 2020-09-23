@@ -52,6 +52,8 @@
       key: "{{ lookup('file','buffer/root/{{ item }}-id_rsa.pub')  }}"
     when: item  != ansible_default_ipv4.address
     with_items: "{{ groups['all'] }}"
+    with_fileglob:
+    - buffer/root/*.pub
   - name: Copy onapp SSH key to all nodes' root user
     authorized_key: 
       user: root
