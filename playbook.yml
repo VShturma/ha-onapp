@@ -32,6 +32,37 @@
       path: /etc/hosts
       line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ hostvars[item]['ansible_fqdn'] }}\t{{ hostvars[item]['ansible_hostname'] }}"
     with_items: "{{ groups['all']}}"
+  - name: Generate SSH key
+    shell:  
+      cmd: ssh-keygen -q -t rsa -N "" -f ~/.ssh/id_rsa
+      creates: "~/.ssh/id_rsa"
+  - name: Fetch root SSH key from node to master
+    fetch:
+      src: "/root/.ssh/id_rsa"
+      dest: "buffer/root/{{ansible_hostname}}-id_rsa.pub"
+      flat: yes
+  - name: Fetch onapp SSH key from node to master
+      src: "/home/onapp/.ssh/id_rsa"
+      dest: "buffer/onapp/{{ansible_hostname}}-id_rsa.pub"
+      flat: yes
+  - name: Copy root SSH key to all nodes' root user
+    authorized_key:
+      user: root
+      key: "{{ lookup('file','buffer/root/{{ item }}'-id_rsa.pub)  }}"
+    when: "{{ item != ansible_hostname }}"
+    with_items: "{{ groups['all'] }}"
+  - name: Copy onapp SSH key to all nodes' root user
+    authorized_key: 
+      user: root
+      key: "{{ lookup('file','buffer/onapp/{{ item }}'-id_rsa.pub)  }}"
+    when: "{{ item != ansible_hostname }}"
+    with_items: "{{ groups['all'] }}"
+  - name: Copy onapp SSH key to all nodes' onapp user
+    authorized_key:
+      user: onapp
+      key: "{{ lookup('file','buffer/onapp/{{ item }}'-id_rsa.pub)  }}"
+    when: "{{ item != ansible_hostname }}"
+    with_items: "{{ groups['all'] }}"
   - name: increase the soft and hard limits for the opened files on all nodes
     blockinfile:
       path: /etc/security/limits.conf
