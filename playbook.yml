@@ -73,3 +73,9 @@
         root hard nofile 4096
         onapp soft nofile 2048
         onapp hard nofile 4096
+  - name: Increase semaphore limits
+    blockinfile:
+      path: /etc/sysctl.conf
+      block: | 
+        kernel.msgmni = 1024
+        kernel.sem = 250 256000 32 1024
