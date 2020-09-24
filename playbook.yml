@@ -38,7 +38,7 @@
       creates: "~/.ssh/id_rsa"
   - name: Fetch root SSH key from node to master
     fetch:
-      src: "/root/.ssh/id_rsa"
+      src: "/root/.ssh/id_rsa.pub"
       dest: "buffer/root/{{ansible_default_ipv4.address}}-id_rsa.pub"
       flat: yes
   - name: Fetch onapp SSH key from node to master
@@ -52,8 +52,6 @@
       key: "{{ lookup('file','buffer/root/{{ item }}-id_rsa.pub')  }}"
     when: item  != ansible_default_ipv4.address
     with_items: "{{ groups['all'] }}"
-    with_fileglob:
-    - buffer/root/*.pub
   - name: Copy onapp SSH key to all nodes' root user
     authorized_key: 
       user: root
