@@ -18,4 +18,4 @@
       state: latest
   - name: Install OnApp
     command: /onapp/onapp-cp-install/onapp-cp-install.sh --ha-install --percona-cluster -a --accept-eula -p {{ db_passwd }} --vcdpasswd {{ rabbitmq_passwd }}
-
+    when: install == 1
