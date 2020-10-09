@@ -4,7 +4,7 @@
   tasks:
   - name: Install percona release package
     yum_repository:
-      baseurl: https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+      name: https://repo.percona.com/yum/percona-release-latest.noarch.rpm
   - name: Install OnApp repo
     command: rpm -Uvh http://rpm.repo.onapp.com/repo/onapp-repo-6.0.noarch.rpm
     register: command_result
