@@ -45,16 +45,16 @@
   - name: Configure License Key
     uri:
       url: "{{ url }}/settings.json"
-      user: {{ cp_user }}
-      password: {{ cp_password }}
+      user: "{{ cp_user }}"
+      password: "{{ cp_password }}"
       method: PUT
       body_format: json
       body: {"configuration": {"isolated_license":"false", "license_key": "cp_license"}}
   - name: Restart License Client
     uri:
       url: "{{ url }}/settings/restart_dashboard_client.json"
-      user: {{ cp_user }}
-      password: {{ cp_password }}
+      user: "{{ cp_user }}"
+      password: "{{ cp_password }}"
       method: GET
       
     
