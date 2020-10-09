@@ -1,0 +1,40 @@
+---
+- hosts: all
+  remote_user: root
+  tasks:
+  - name: Fetch onapp SSH key from node to master
+    fetch:
+      src: "/home/onapp/.ssh/id_rsa.pub"
+      dest: "buffer/onapp/{{ansible_default_ipv4.address}}-id_rsa.pub"
+      flat: yes
+  - name: Copy onapp SSH key to all nodes' root user
+    authorized_key: 
+      user: root
+      key: "{{ lookup('file','buffer/onapp/{{ item }}-id_rsa.pub')  }}"
+    when: item != ansible_default_ipv4.address
+    with_items: "{{ groups['all'] }}"
+  - name: Copy onapp SSH key to all nodes' onapp user
+    authorized_key:
+      user: onapp
+      key: "{{ lookup('file','buffer/onapp/{{ item }}-id_rsa.pub')  }}"
+    when: item != ansible_default_ipv4.address
+    with_items: "{{ groups['all'] }}"
+
+- hosts: master
+  tasks:
+  - name: Configure License Key
+    uri:
+      url: {{ url }}/settings.json
+      user: {{ cp_user }}
+      password: {{ cp_password }}
+      method: PUT
+      body_format: json
+      body: {"configuration": {"isolated_license":"false", "license_key": "cp_license"}}
+  - name: Restart License Client
+    uri:
+      url: {{ url }}/settings/restart_dashboard_client.json
+      user: {{ cp_user }}
+      password: {{ cp_password }}
+      method: GET
+      
+    

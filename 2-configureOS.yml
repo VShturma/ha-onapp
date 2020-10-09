@@ -6,7 +6,6 @@
     yum:
       name: '*'
       state: latest
-    when: install == 1
   - name: Set hostname
     hostname:
       name: "{{ cp_hostname_long }}"
@@ -49,34 +48,3 @@
       block: | 
         kernel.msgmni = 1024
         kernel.sem = 250 256000 32 1024
-  - name: Install OnApp repo
-    command: rpm -Uvh http://rpm.repo.onapp.com/repo/onapp-repo-6.0.noarch.rpm
-    register: command_result
-    # if you see an error like 'package is already installed' but still want to proceed
-    # then uncomment the line below
-    failed_when: command_result.rc > 0 and 'already installed' not in command_result.stderr
-  - name: Install CP installer
-    yum:
-      name: onapp-cp-install
-      state: latest
-  - name: Install OnApp
-    command: /onapp/onapp-cp-install/onapp-cp-install.sh --ha-install --percona-cluster -a --accept-eula
-    when: install == 1
-  - name: Fetch onapp SSH key from node to master
-    fetch:
-      src: "/home/onapp/.ssh/id_rsa.pub"
-      dest: "buffer/onapp/{{ansible_default_ipv4.address}}-id_rsa.pub"
-      flat: yes
-  - name: Copy onapp SSH key to all nodes' root user
-    authorized_key: 
-      user: root
-      key: "{{ lookup('file','buffer/onapp/{{ item }}-id_rsa.pub')  }}"
-    when: item != ansible_default_ipv4.address
-    with_items: "{{ groups['all'] }}"
-  - name: Copy onapp SSH key to all nodes' onapp user
-    authorized_key:
-      user: onapp
-      key: "{{ lookup('file','buffer/onapp/{{ item }}-id_rsa.pub')  }}"
-    when: item != ansible_default_ipv4.address
-    with_items: "{{ groups['all'] }}"
-  
