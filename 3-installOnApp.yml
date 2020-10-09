@@ -1,8 +1,11 @@
 ---
 - hosts: all
   remote_user: root
-  serial: 1
   tasks:
+  - name: Install percona release package
+    yum:
+      name: percona-release
+      state: latest
   - name: Install OnApp repo
     command: rpm -Uvh http://rpm.repo.onapp.com/repo/onapp-repo-6.0.noarch.rpm
     register: command_result
@@ -15,4 +18,4 @@
       state: latest
   - name: Install OnApp
     command: /onapp/onapp-cp-install/onapp-cp-install.sh --ha-install --percona-cluster -a --accept-eula -p {{ db_passwd }} --vcdpasswd {{ rabbitmq_passwd }}
-    ignore_errors: yes
+
