@@ -14,7 +14,7 @@ pipeline {
                             inventoryContent: '[master]\n10.76.0.211\n[slave1]\n10.76.0.212\n[slave2]\n10.76.0.213'
    )
                 ansiblePlaybook(
-                            playbook: '4-configureSSH.yml',
+                            playbook: '4-configureNodes.yml',
                             vaultCredentialsId: 'ansible-password',
                             inventoryContent: '[master]\n10.76.0.211\n[slave1]\n10.76.0.212\n[slave2]\n10.76.0.213'
    )
