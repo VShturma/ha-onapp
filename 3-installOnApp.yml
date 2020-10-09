@@ -1,6 +1,7 @@
 ---
 - hosts: all
   remote_user: root
+  serial: 1
   tasks:
   - name: Install OnApp repo
     command: rpm -Uvh http://rpm.repo.onapp.com/repo/onapp-repo-6.0.noarch.rpm
@@ -14,4 +15,3 @@
       state: latest
   - name: Install OnApp
     command: /onapp/onapp-cp-install/onapp-cp-install.sh --ha-install --percona-cluster -a --accept-eula -p {{ db_passwd }} --vcdpasswd {{ rabbitmq_passwd }}
-    serial: 1
