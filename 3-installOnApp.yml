@@ -3,8 +3,9 @@
   remote_user: root
   tasks:
   - name: Install percona release package
-    yum_repository:
+    yum:
       name: https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+      state: present
   - name: Install OnApp repo
     command: rpm -Uvh http://rpm.repo.onapp.com/repo/onapp-repo-6.0.noarch.rpm
     register: command_result
