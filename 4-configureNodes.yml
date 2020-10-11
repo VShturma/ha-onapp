@@ -39,6 +39,10 @@
       key: "{{ lookup('file','buffer/onapp/{{ item }}-id_rsa.pub')  }}"
     when: item != ansible_default_ipv4.address
     with_items: "{{ groups['all'] }}"
+  - name: Ensure RabbitMQ is running
+    service:
+      name: rabbitmq-server
+      state: started
 
 - hosts: master
   tasks:
