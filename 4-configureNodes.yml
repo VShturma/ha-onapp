@@ -49,7 +49,7 @@
       password: "{{ cp_password }}"
       method: PUT
       body_format: json
-      body: '{"configuration": {"isolated_license":"false", "license_key": {{ cp_license }} }}'
+      body: "{'configuration':{'isolated_license':'false', 'license_key':'{{ cp_license }}' }}"
       status_code: 204
   - name: Restart License Client
     uri:
