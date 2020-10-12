@@ -1,0 +1,16 @@
+---
+- hosts: master
+  tasks:
+  - name: Add HA hosts
+    uri:
+      url: "{{ url }}/availability/hosts.json"
+      user: "{{ cp_user }}"
+      password: "{{ cp_password }}"
+      method: POST
+      body_format: json
+      body: "{'availability_host':{'hostname':'{{ hostvars[item]['ansible_nodename'] }}'}}"
+      status_code: 201
+    with_items: "{{ groups['all'] }}"
+
+
+
