@@ -5,7 +5,8 @@
   - name: Insert all CPs in hosts file
     lineinfile:
       path: /etc/hosts
-      line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ hostvars[item]['ansible_fqdn'] }}\t{{ hostvars[item]['ansible_hostname'] }}"
+#      line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ hostvars[item]['ansible_fqdn'] }}\t{{ hostvars[item]['ansible_hostname'] }}"
+    line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}\t{{ cp_hostname_long }}\t{{ cp_hostname_short }}"
     with_items: "{{ groups['all']}}"
   - name: Generate SSH key
     shell:
