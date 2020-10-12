@@ -8,7 +8,7 @@
   tasks:
   - name: Add HA hosts
     uri:
-      url: "{{ url }}/availability/hosts.json"
+      url: "{{ url }}settings/availability/hosts.json"
       user: "{{ cp_user }}"
       password: "{{ cp_password }}"
       method: POST
