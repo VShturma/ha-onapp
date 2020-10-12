@@ -25,6 +25,22 @@ pipeline {
                             inventoryContent: '[master]\n10.76.0.211\n[slave1]\n10.76.0.212\n[slave2]\n10.76.0.213')
             }
         }
+        stage('Configure Master') {
+            steps {
+                ansiblePlaybook(
+                            playbook: '5-configureMaster.yml',
+                            vaultCredentialsId: 'ansible-password',
+                            inventoryContent: '[master]\n10.76.0.211\n[slave1]\n10.76.0.212\n[slave2]\n10.76.0.213')
+            }
+        }
+        stage('Configure HA') {
+            steps {
+                ansiblePlaybook(
+                            playbook: '6-configureHA.yml',
+                            vaultCredentialsId: 'ansible-password',
+                            inventoryContent: '[master]\n10.76.0.211\n[slave1]\n10.76.0.212\n[slave2]\n10.76.0.213')
+            }
+        }
     }
 }
 
