@@ -1,4 +1,9 @@
 ---
+- hosts: all
+  tasks:
+  - name: Gather facts
+    setup:
+      
 - hosts: master
   tasks:
   - name: Add HA hosts
