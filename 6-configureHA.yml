@@ -30,7 +30,7 @@
       password: "{{ cp_password }}"
       method: PUT
       body_format: json
-      body: "{'ring':{'bindnetaddr':'{{ hostvars[item]['ansible_default_ipv4']['address'] }}'}}"
+      body: "{'ring':{'bindnetaddr':'{{ hostvars[item]['ansible_default_ipv4']['network'] }}'}}"
       status_code: 204
     with_items: "{{ groups['master']  }}"
 
