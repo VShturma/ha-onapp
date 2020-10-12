@@ -16,6 +16,22 @@
       body: "{'availability_host':{'hostname':'{{ hostvars[item]['ansible_nodename'] }}'}}"
       status_code: 201
     with_items: "{{ groups['all'] }}"
-
+  - name: Get Communication Ring ID
+    uri:
+      url: "{{ url }}settings/availability/communication_rings.json"
+      user: "{{ cp_user }}"
+      password: "{{ cp_password }}"
+      method: GET
+      register: cr
+  - name: Edit Communication Ring
+    uri:
+      url: "{{ url }}settings/availability/communication_rings/{{cr.0.communication_ring.id}}.json"
+      user: "{{ cp_user }}"
+      password: "{{ cp_password }}"
+      method: PUT
+      body_format: json
+      body: "{'ring':{'bindnetaddr':'{{ hostvars[item]['ansible_default_ipv4']['address'] }}'}}"
+      status_code: 204
+    with_items: "{{ groups['master']  }}"
 
 
